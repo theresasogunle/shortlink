@@ -12,6 +12,7 @@ deployment.
 ## 📋 Features
 
 - ✂️ Shorten long URLs to 6-character codes
+- 🎯 Custom aliases - use your own memorable short codes
 - 🔄 Automatic redirect from short links to original URLs
 - 📊 Click tracking and analytics
 - ✅ URL validation
@@ -51,13 +52,40 @@ deployment.
     "createdAt": "2025-11-27T10:30:00",
     "clickCount": 0
   }
+  ```
 
-  Redirect to Original URL
+### Shorten a URL with Custom Alias
+  ```bash
+  POST /api/shorten
+  Content-Type: application/json
+
+  {
+    "url": "https://example.com",
+    "customAlias": "my-link"
+  }
+
+  Response:
+  {
+    "id": 2,
+    "originalUrl": "https://example.com",
+    "shortCode": "my-link",
+    "shortUrl": "https://your-app.onrender.com/my-link",
+    "createdAt": "2025-11-27T10:30:00",
+    "clickCount": 0
+  }
+  ```
+  
+  **Custom Alias Requirements:**
+  - 3-20 characters long
+  - Only letters, numbers, hyphens, and underscores
+  - Must be unique
+
+### Redirect to Original URL
 
   GET /{shortCode}
   Redirects to the original URL and increments click count.
 
-  Get URL Statistics
+### Get URL Statistics
 
   GET /api/stats/{shortCode}
 
