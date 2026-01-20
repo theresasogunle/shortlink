@@ -15,8 +15,21 @@ public class UrlService {
     private static final int SHORT_CODE_LENGTH = 6;
 
     public Url shortenUrl(String originalUrl) {
-        // Generate a unique short code
-        String shortCode = generateUniqueShortCode();
+        return shortenUrl(originalUrl, null);
+    }
+
+    public Url shortenUrl(String originalUrl, String customAlias) {
+        // Use custom alias if provided, otherwise generate a unique short code
+        String shortCode;
+        if (customAlias != null && !customAlias.isEmpty()) {
+            // Validate that custom alias is not already in use
+            if (urlRespository.existsByShortCode(customAlias)) {
+                throw new RuntimeException("Custom alias '" + customAlias + "' is already in use");
+            }
+            shortCode = customAlias;
+        } else {
+            shortCode = generateUniqueShortCode();
+        }
 
         Url url = new Url();
         url.setOriginalUrl(originalUrl);
@@ -24,7 +37,6 @@ public class UrlService {
         url.setClickCount(0);
 
         return urlRespository.save(url);
-
     }
 
     public Url getOriginalUrl(String shortCode) {
