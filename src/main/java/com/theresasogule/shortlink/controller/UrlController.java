@@ -20,7 +20,7 @@ public class UrlController {
 
     @PostMapping("/shorten")
     public ResponseEntity<ShortenUrlResponse> shortenUrl(@Valid @RequestBody ShortenUrlRequest shortenUrlRequest) {
-        Url url = urlService.shortenUrl(shortenUrlRequest.getUrl());
+        Url url = urlService.shortenUrl(shortenUrlRequest.getUrl(), shortenUrlRequest.getCustomAlias());
 
         String shortUrl = "http://localhost:8080/"+ url.getShortCode();
 
